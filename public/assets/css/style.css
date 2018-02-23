@@ -29,6 +29,7 @@ h2 {
 .liveChatButton {
     margin-top: 15px !important;
     font-size: 20px;
+    margin-right: 25px !important;
 }
 
 .liveChatButton:hover,
@@ -94,6 +95,15 @@ h2 {
     color: #2C3E50;
     background-color: #ECF0F1;
     border: 0;
+}
+
+
+/* Chat Button */
+
+.chatButton {
+    background-color: cadetblue;
+    width: 50%;
+    margin-right: 90px;
 }
 
 
