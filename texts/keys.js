@@ -1,4 +1,4 @@
-exports.apikeys = {
+module.exports = {
 	accountSid: process.env.accountSid,
 	authToken: process.env.authToken,
 	TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER,

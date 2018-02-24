@@ -12,30 +12,30 @@ var keys = require("./texts/keys.js");
 
 // console.log(keys);
 
-const accountSid = keys.apikeys.accountSid;
-const authToken = keys.apikeys.authToken;
+const accountSid = keys.accountSid;
+const authToken = keys.authToken;
 
-var twilioNumber = keys.apikeys.TWILIO_PHONE_NUMBER;
-var recipientNumber = keys.apikeys.recipientNumber;
+var twilioNumber = keys.TWILIO_PHONE_NUMBER;
+var recipientNumber = keys.recipientNumber;
 
 
 // require the Twilio module and create a REST client
 const client = require('twilio')(accountSid, authToken);
 
 
-// require("./texts/texts.js")(recipientNumber, twilioNumber, "Test");
+require("./texts/texts.js")(recipientNumber, twilioNumber, "Test");
 
-function sendText (recipient, tNumber, randomText) {
+// function sendText (recipient, tNumber, randomText) {
 
-    client.messages
-  .create({
-    to: recipient,
-    from: tNumber,
-    body: randomText
-  })
-  .then(message => console.log(message.sid));
-    console.log("success");
-}
+//     client.messages
+//   .create({
+//     to: recipient,
+//     from: tNumber,
+//     body: randomText
+//   })
+//   .then(message => console.log(message.sid));
+//     console.log("success");
+// }
 
 // sendText(recipientNumber, twilioNumber, "Test 1");
 
@@ -69,7 +69,8 @@ io.on("connection", function(socket){
 
         if(Number.isInteger(socket.room)) {
             connectedUsers.push({user: socket.username, room: socket.room});
-            sendText(recipientNumber, twilioNumber, socket.username + " Connected" + " in Room: " + socket.room);
+            // sendText(recipientNumber, twilioNumber, socket.username + " Connected" + " in Room: " + socket.room);
+            require("./texts/texts.js")(recipientNumber, twilioNumber, socket.username + " Connected" + " in Room: " + socket.room);
 
         }        
 
