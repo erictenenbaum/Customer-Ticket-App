@@ -24,6 +24,7 @@
     "express-handlebars": "^3.0.0",
     "mysql2": "^1.5.2",
     "sequelize": "^4.33.3",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "twilio": "^3.11.3"
   }
 }

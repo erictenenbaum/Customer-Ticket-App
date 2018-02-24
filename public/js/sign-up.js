@@ -28,9 +28,9 @@ $(function() {
         if (dataValidate(firstName, lastName, phone, email)) {
         	console.log(newUserObj);
 
-        	$.post("/signup/", newUserObj).then(data =>{
+        	$.post("/signup", newUserObj).then(data =>{
         		console.log("this is data", data);
-        		location.assign("/chat");
+        		location.assign("/chat/" + data.id);
         	})
         }
         

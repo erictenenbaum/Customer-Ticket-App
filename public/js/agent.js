@@ -26,27 +26,55 @@
 
       // FOR AGENT STUFF
 
+         var path = location.pathname.split("");
+
+
+       var chatIndex = path.lastIndexOf("/");
+
+       var chatRoom = path.slice(chatIndex + 1).join("");
+
+       console.log(chatRoom);
+
+
+
       $("#exampleModal").modal("show");
 
         $(".user-button").on("click", function() {
             var user = $("#user-name").val().trim();
-            var room = $("#room-name").val().trim();
+            // var room = $("#room-name").val().trim();
+
+            console.log(window.location);
 
             var userObj = {
-                customer_first_name: user,
-                id: room
+                username: user,
+                room: chatRoom.toString()
             }
 
-            // $.post("/chat", userObj).then(function(data){
-            //     console.log(data);
-            // })
+            $.post("/agent/" + chatRoom, userObj).then(function(data){
+                console.log(data);
+            })
 
             socket.emit('new user', userObj);
+
+            // $.post("/agent", userObj).then(function(agentData){
+            //   console.log(agentData);
+            // });
 
             // location.assign("/chat");
 
             $("#exampleModal").modal("hide");
         });
+
+
+        $("#showUsers").on("click", function(){
+          socket.emit("show users");
+        })
+
+        socket.on("show users", function(data){
+          console.log(data);
+        });
+
+
 
 
     
