@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
     var Customers = sequelize.define("Customers", {
-        id: {
+        customer_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
@@ -9,29 +9,32 @@ module.exports = function(sequelize, DataTypes) {
         },
         customer_first_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            
         },
         customer_last_name: {
             type: DataTypes.STRING,
             allowNull: false
         },
         customer_phone: {
-            type: DataTypes.STRING            
+            type: DataTypes.STRING,
+            allowNull: false      
+                  
         },
         customer_email: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         }
 
 
     }, {underscored: true});
     
-   Customers.associate = function(models) {
+   //Customers.associate = function(models) {
     // Associating Author with Posts
     // When an Author is deleted, also delete any associated Posts
-    models.Customers.hasMany(models.Ticket, {
-      onDelete: "cascade"
-    });
-  };
+    //models.Customers.hasMany(models.Ticket, {
+    //  onDelete: "cascade"
+   //});
+  //};
 
   
     return Customers;
