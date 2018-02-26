@@ -1,80 +1,88 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE <!DOCTYPE html>
+<html>
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Material Design for Bootstrap fonts and icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <!-- Material Design for Bootstrap CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/chat.css">
-    <title>Sign Up Page</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Agent Side</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS & JS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/agent.css" />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src=" /socket.io/socket.io.js "></script>
 </head>
 
 <body>
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">Fluid jumbotron</h1>
-            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-            <button id="showUsers">Show Users</button>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></div> -->
-            <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"></div> -->
-            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-                <ul>
-                    <li id="chat">
-                        <ul id="messages"></ul>
-                        <form id="chat-form" action="">
-                            <input id="m" autocomplete="off" />
-                            <button>Send</button>
-                        </form>
-                    </li>
-                </ul>
+    <!--Header Section -->
+    <div class="header">
+        <h2 class="text-success">Agent Dashboard</h2>
+        <form class="loginForm">
+            <div class="form-group agentLabelInput">
+                <label id="agentName">Name</label>
+                <input type="text" class="form-control agentNameLogin" name="agentName" placeholder="agentName" required>
             </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">User Name</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Agent Display Name:</label>
-                            <input type="text" class="form-control" id="user-name">
-                        </div>
-                        <!-- Room Name Not Needed anymore -->
-                         <!-- <div class="form-group">
-                            <label for="room-name" class="col-form-label">Room Name:</label>
-                            <input type="text" class="form-control" id="room-name">
-                        </div> -->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="user-button btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
+            <button type="button" class="btn-default loginButton">LogIn</button>
+            <!-- <button type="button" class="btn-default signOutButton">SignOut</button> -->
+        </form>
     </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->      
-          <script src="/socket.io/socket.io.js"></script>
-        <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>  
 
-        <!-- <script type="text/javascript" src="../js/sign-up.js"></script> -->
-        <script type="text/javascript" src="../js/agent.js"></script>
-         
+    <div class="background">
+        <div class="col-sm-3 activeCalls">
+            <h3>Active</h3>
+            <div>
+                <table class="table table-bordered  table-hover">
+                    <thead>
+                        <tr>
+                            <th>AgentName</th>
+                            <th>ClientName</th>
+                            <th>TicketNumber</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>01</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-3 solvedIssues">
+            <h3>Solved Issues</h3>
+            <span></span>
+        </div>
+        <div class="col-sm-3 openIssues">
+            <h3>Open Issues</h3>
+            <span></span>
+        </div>
+
+        <!-- Chat Form -->
+        <div class="col-sm-6">
+            <div class="chatContainer col-sm-6 center-block">
+                <ul></ul>
+                <div>
+                    <div class="msj-rta macro">
+                        <div class="text text-r">
+                            <input class="mytext" placeholder="Type a message" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Section -->
+        <nav class="footer navbar-fixed-bottom ">
+            <div class="footer-space ">
+                <footer class="primary-footer group ">
+                    <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
+                </footer>
+            </div>
+        </nav>
+        <script type="text/javascript " src="../js/agent.js "></script>
 </body>
 
 </html>

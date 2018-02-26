@@ -1,0 +1,83 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Customer-Support-Ticketing-App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS & JS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/user.css" />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src=" /socket.io/socket.io.js "></script>
+</head>
+
+<body>
+    <!--Header Section -->
+    <div class="header">
+        <h2 class="text-success">Customer Support Ticketing App</h2>
+        <form class="loginForm">
+            <div class="form-group emailLabelInput">
+                <label id="userEmail">Email</label>
+                <input type="email" class="form-control emailLogin" name="email" placeholder="name@example.com" required>
+            </div>
+            <button type="button" class="btn-default loginButton">LogIn</button>
+        </form>
+    </div>
+    <div class="background">
+        <div class="col-sm-6">
+        </div>
+        <!-- Chat Form -->
+        <div class="col-sm-6">
+            <div class="panel signUpPanel panel-default center-block">
+                <div class="panel-heading">Sign Up With Us!</div>
+                <div class="panel-body">
+                    <form class="userMessageForm">
+                        <div class="form-group ">
+                            <label for="nameInputform">First</label>
+                            <input type="text " class="form-control " id="userFirstName" name="firstName" placeholder="Jane" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="nameInputform">Last</label>
+                            <input type="text " class="form-control " id="userLastName" name="lastName" placeholder="Smith" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="emailInputForm">Email Address</label>
+                            <input type="email " class="form-control " id="userEmailAddInput" name="email" placeholder="name@example.com" required>
+                        </div>
+                        <div class=" form-group">
+                            <label for="inputPhoneForm">Phone Number</label>
+                            <input type="tel " class="form-control" id="phoneNumberId" name="phone" placeholder="123-456-7890" required>
+                        </div>
+                        <div class="button-group ">
+                            <button type="button" class="btn btn-default signUpButton">Let's Start</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="chatContainer col-sm-6 center-block">
+                <ul></ul>
+                <div>
+                    <div class="msj-rta macro">
+                        <div class="text text-r">
+                            <input class="mytext" placeholder="Type a message" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Section -->
+        <nav class="footer navbar-fixed-bottom ">
+            <div class="footer-space ">
+                <footer class="primary-footer group ">
+                    <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
+                </footer>
+            </div>
+        </nav>
+        <script type="text/javascript " src="../js/user.js "></script>
+</body>
+
+</html>

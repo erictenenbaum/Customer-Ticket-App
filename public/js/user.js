@@ -8,20 +8,45 @@ $(document).ready(function() {
     var socket = io();
     var myUser;
 
+    // 
     $(".loginButton").on("click", function(event) {
         $.ajax({
-            url: "/agent",
+            url: "/login",
             type: "POST",
             data: $(".loginForm").serialize(),
-            success: function(ticketId) {
-                myUser = $(".agentNameLogin").val().trim();
-                var chatInfo = { username: myUser, room: ticketId };
+            success: function(data) {
+
+                myUser = data.firstName;
+                var chatInfo = { username: data.firstName, room: data.id };
 
                 socket.emit("new user", chatInfo);
+                $(".signUpPanel").fadeOut("slow");
+                $('.chatContainer').fadeIn('slow');
             },
             error: function() {
                 console.log("error");
-            }
+            },
+        });
+    });
+
+    // 
+    $(".signUpButton").on("click", function(event) {
+        $.ajax({
+            url: "/signup",
+            type: "POST",
+            data: $(".userMessageForm").serialize(),
+
+            success: function(data) {
+                myUser = $("#userFirstName").val().trim();
+                var chatInfo = { username: myUser, room: data.id };
+                socket.emit("new user", chatInfo);
+                $(".signUpPanel").fadeOut("slow");
+                $(".chatContainer").fadeIn("slow");
+
+            },
+            error: function() {
+                console.log("error");
+            },
         });
     });
 
@@ -58,7 +83,7 @@ $(document).ready(function() {
         }
     });
 
-    // customer chat messages
+    // agent chat messages
     socket.on("chat message", function(msg) {
         var values = msg.split(":");
         if (values[0] !== myUser) {
