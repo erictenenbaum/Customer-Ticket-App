@@ -25,9 +25,7 @@ module.exports = function(sequelize, DataTypes) {
 
     }, {underscored: true});
     
-   Customers.associate = function(models) {
-    // Associating Author with Posts
-    // When an Author is deleted, also delete any associated Posts
+   Customers.associate = function(models) {    
     models.Customers.hasMany(models.Ticket, {
       onDelete: "cascade"
     });
