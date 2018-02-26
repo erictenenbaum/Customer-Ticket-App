@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
         service_id: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        chat_conversation{
+            type: DataTypes.JSON,
+            allowNull: false
         }
 
     }, {underscored: true});
