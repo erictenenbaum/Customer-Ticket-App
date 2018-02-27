@@ -4,6 +4,32 @@ var bodyParser = require("body-parser");
 require("dotenv").config();
 
 
+// Agent Authentication
+var cors = require('cors');
+var session = require('express-session');
+app.use(cors());
+
+
+app.use(session({
+  // secret: process.env.SESSIONSECRET || config.sessionSecret || "cat",
+  secret: "cat",
+  resave: false,
+  saveUninitialized: true
+}));
+
+//middleware for setting up a user object when anyone first come to the appplication
+function userSetup(req, res, next){
+  if(!req.session.user){
+    req.session.user = {}
+    req.session.user.loggedIn = false;
+  }
+  next()
+}
+
+
+app.use(userSetup)
+
+
 // TWILIO APP STUFF:
 var keys = require("./texts/keys.js");
 const accountSid = keys.accountSid;
@@ -69,7 +95,18 @@ io.on("connection", function(socket) {
     });
 
     socket.on('disconnect', function() {
+           // Helper function to use array.filter() below
+        function checkRoom2(obj) {
+            if (parseInt(obj.room) !== parseInt(socket.room)) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         console.log(socket.username, ' disconnected from Room: ' + socket.room);
+        connectedUsers = connectedUsers.filter(checkRoom2);
+        io.to("0").emit("show users", connectedUsers);
 
     });
 
@@ -99,7 +136,7 @@ app.use(routes);
 
 
 // Because of socket.io we need to use server.listen     
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync({ force: false }).then(function() {
     server.listen(PORT, function() {
         console.log("App listening on PORT " + PORT);
     });
