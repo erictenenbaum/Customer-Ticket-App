@@ -37,14 +37,22 @@ h2 {
     padding: 10px 5px;
 }
 
+.signOutButton,
 .loginButton {
     margin: 20px 20px 0;
 }
 
+.signOutButton:hover,
+.signOutButton:active:focus,
+.signOutButton:focus,
 .loginButton:hover,
 .loginButton:active:focus,
 .loginButton:focus {
     color: #2C3E50;
+}
+
+.signOutButton {
+    display: none;
 }
 
 
@@ -197,6 +205,8 @@ ul {
     bottom: 32px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    height: 90%;
 }
 
 .msj:before {

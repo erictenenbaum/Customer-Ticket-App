@@ -11,8 +11,6 @@ router.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "../public/html/user.html"));
 });
 
-
-
 router.get("/agent", function(req, res) {
 
     res.sendFile(path.join(__dirname, "../public/html/agent.html"));
@@ -40,9 +38,8 @@ router.post("/agent", function(req, res) {
         }).then(function(ticket) {
             db.Ticket.update({
                 agent_id: agentId
-            }, { where: { id: ticket.dataValues.id } }).then(function() {
-                res.json(ticket.dataValues.id);
-            });
+            }, { where: { id: ticket.dataValues.id } }).then(function() {});
+            res.json(ticket.dataValues.id);
         });
     });
 });

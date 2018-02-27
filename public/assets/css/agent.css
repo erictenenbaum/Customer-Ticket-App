@@ -30,15 +30,19 @@ h2 {
     margin-bottom: 0;
 }
 
-.agentLogin {
+agentNameLogin {
     height: 30px;
     padding: 10px 5px;
 }
 
+.signOutButton,
 .loginButton {
     margin: 20px 20px 0;
 }
 
+.signOutButton:hover,
+.signOutButton:active:focus,
+.signOutButton:focus,
 .loginButton:hover,
 .loginButton:active:focus,
 .loginButton:focus {
@@ -83,6 +87,7 @@ h3 {
     margin: 20px;
     padding: 0;
     background-color: gray;
+    display: none;
 }
 
 .solvedIssues,
@@ -91,6 +96,7 @@ h3 {
     height: 20%;
     padding: 0;
     background-color: gray;
+    display: none;
 }
 
 .solvedIssues {
@@ -108,10 +114,10 @@ h3 {
     background: #e0e0de;
     height: 400px;
     overflow: hidden;
-    /* display: none; */
+    display: none;
     padding: 0;
     margin-top: 10px;
-    width: 100%;
+    /* width: 100%; */
     margin-left: 90px;
 }
 
@@ -195,6 +201,9 @@ ul {
     bottom: 32px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    height: 90%;
+    ;
 }
 
 .msj:before {

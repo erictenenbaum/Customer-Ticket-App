@@ -18,11 +18,20 @@ $(document).ready(function() {
                 var chatInfo = { username: myUser, room: ticketId };
 
                 socket.emit("new user", chatInfo);
+                $(".loginButton").fadeOut("slow");
+                $(".chatContainer").fadeIn("slow");
+                $(".signOutButton").fadeIn("slow");
+                $(".activeCalls").fadeIn("slow");
+
+                setTimeout(function() {
+                    socket.emit("show users");
+                }, 500);
             },
             error: function() {
                 console.log("error");
             }
         });
+
     });
 
     function insertChat(who, text, time) {
@@ -33,9 +42,19 @@ $(document).ready(function() {
         var date = moment().format("LT");
 
         if (who == "me") {
-            control = '<li style="width:100%">' + '<div class="msj macro">' + '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + me.avatar + '" /></div>' + '<div class="text text-l">' + "<p>" + text + "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + "</div>" + "</li>";
+            control = '<li style="width:100%">' +
+                '<div class="msj macro">' +
+                '<div class="avatar"><img class="img-circle" style="width:100%;" src="' +
+                me.avatar + '" /></div>' + '<div class="text text-l">' + "<p>" + text +
+                "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + "</div>" +
+                "</li>";
         } else {
-            control = '<li style="width:100%;">' + '<div class="msj-rta macro">' + '<div class="text text-r">' + "<p>" + text + "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' + you.avatar + '" /></div>' + "</li>";
+            control = '<li style="width:100%;">' +
+                '<div class="msj-rta macro">' +
+                '<div class="text text-r">' +
+                "<p>" + text + "</p>" + "<p><small>" + date + "</small></p>" + "</div>" +
+                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' +
+                you.avatar + '" /></div>' + "</li>";
         }
         setTimeout(function() {
             $("ul").append(control);
@@ -46,7 +65,7 @@ $(document).ready(function() {
         $("ul").empty();
     }
 
-    // user chat messages
+    // agent chat messages
     $(".mytext").on("keyup", function(e) {
         if (e.which == 13) {
             var text = $(this).val();
@@ -64,5 +83,19 @@ $(document).ready(function() {
         if (values[0] !== myUser) {
             insertChat("other", msg);
         }
+    });
+
+    socket.on("show users", function(data) {
+        console.log("data", data);
+        $("#activeCallLists").empty();
+        for (var i = 0; i < data.length; i += 2) {
+            $("#activeCallLists").append("<tr>" + '<td id="agentName">' + data[i + 1].user +
+                "</td>" + '<td id="clientName">' + data[i].user + "</td>" +
+                '<td id="ticketNumber">' + data[i].room + "</td>" + "</tr>");
+        }
+    });
+
+    $(".signOutButton").on("click", function(event) {
+
     });
 });

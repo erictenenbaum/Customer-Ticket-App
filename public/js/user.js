@@ -20,8 +20,11 @@ $(document).ready(function() {
                 var chatInfo = { username: data.firstName, room: data.id };
 
                 socket.emit("new user", chatInfo);
+                $(".loginButton").fadeOut("slow");
                 $(".signUpPanel").fadeOut("slow");
                 $('.chatContainer').fadeIn('slow');
+                $(".signOutButton").fadeIn("slow");
+
             },
             error: function() {
                 console.log("error");
@@ -42,6 +45,7 @@ $(document).ready(function() {
                 socket.emit("new user", chatInfo);
                 $(".signUpPanel").fadeOut("slow");
                 $(".chatContainer").fadeIn("slow");
+                $(".signOutButton").fadeIn("slow");
 
             },
             error: function() {
@@ -58,9 +62,18 @@ $(document).ready(function() {
         var date = moment().format("LT");
 
         if (who == "me") {
-            control = '<li style="width:100%">' + '<div class="msj macro">' + '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + me.avatar + '" /></div>' + '<div class="text text-l">' + "<p>" + text + "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + "</div>" + "</li>";
+            control = '<li style="width:100%">' +
+                '<div class="msj macro">' +
+                '<div class="avatar"><img class="img-circle" style="width:100%;" src="' +
+                me.avatar + '" /></div>' + '<div class="text text-l">' + "<p>" + text +
+                "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + "</div>" + "</li>";
         } else {
-            control = '<li style="width:100%;">' + '<div class="msj-rta macro">' + '<div class="text text-r">' + "<p>" + text + "</p>" + "<p><small>" + date + "</small></p>" + "</div>" + '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' + you.avatar + '" /></div>' + "</li>";
+            control = '<li style="width:100%;">' +
+                '<div class="msj-rta macro">' +
+                '<div class="text text-r">' + "<p>" + text +
+                "</p>" + "<p><small>" + date + "</small></p>" + "</div>" +
+                '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' +
+                you.avatar + '" /></div>' + "</li>";
         }
         setTimeout(function() {
             $("ul").append(control);
@@ -89,5 +102,12 @@ $(document).ready(function() {
         if (values[0] !== myUser) {
             insertChat("other", msg);
         }
+    });
+
+    $(".signOutButton").on("click", function(event) {
+        // $(".loginButton").fadeIn("slow");
+        // $(".signUpPanel").fadeIn("slow");
+        // $(".chatContainer").fadeOut("slow");
+        // $(".signOutButton").fadeOut("slow");
     });
 });
