@@ -1,73 +1,46 @@
- $(function()  {
-      $('body').bootstrapMaterialDesign();
-       const socket = io();
-    
+ $(function() {
+     $('body').bootstrapMaterialDesign();
+     const socket = io();
 
+     var userObj = {
+         username: "Agent",
+         room: "0"
+     };
 
-      // FOR AGENT STUFF
+     socket.emit('new user', userObj);
+     socket.emit("show users");
 
-      // With Modal use this:
+     socket.on("show users", function(data) {
+         $("#dashboardDiv").html("");
+         console.log(data);
 
-      // $("#exampleModal").modal("show");
+         for (let i = 0; i < data.length; i++) {
+             var newDiv = $("<div>");
 
-      //   $(".user-button").on("click", function() {
-      //       var user = $("#user-name").val().trim();
-      //       var room = $("#room-name").val().trim();
+             newDiv.html("<ul><li>" + "Name: " + data[i].user + "</li> <li> Room: " +
+                 "<a href='/agent/" + data[i].room + "'target='blank_'" +
+                 "class='roomButton'" +
+                 "data-id='" + [i] + "'>" +
+                 data[i].room + "</a>" +
+                 "</li></ul>");
 
-      //       var userObj = {
-      //           username: user,
-      //           room: room
-      //       }       
+             $("#dashboardDiv").append(newDiv);
+         }
+     });
 
-      //       socket.emit('new user', userObj);
-           
-      //       $("#exampleModal").modal("hide");
-      //   });
+     // PHASED OUT FUNCTIONALITY
 
+     // Old function for continuously updating the dashboard. Phased out
+     // function continuousUpdate() {            
+     //    socket.emit("show users");
+     //    setInterval(continuousUpdate, 5000);
+     // }
 
-         var userObj = {
-                username: "Agent",
-                room: "0"
-            }       
+     // continuousUpdate();  
 
-            socket.emit('new user', userObj);           
-           // socket.emit("show users");
+     // Button with click even has been phased out too
+     // $("#showUsers").on("click", function(){
+     //   socket.emit("show users");
+     // })     
 
-           function continuousUpdate() {            
-              socket.emit("show users");
-              setInterval(continuousUpdate, 5000);
-           }
-
-           continuousUpdate();
-      
-
-
-
-
-        // $("#showUsers").on("click", function(){
-        //   socket.emit("show users");
-        // })
-
-        socket.on("show users", function(data){
-          $("#dashboardDiv").html("");
-          // console.log(data);
-
-            for(let i = 0; i < data.length; i++){
-              var newDiv = $("<div>");
-
-              newDiv.html("<ul><li>" + "Name: " + data[i].user + "</li> <li> Room: " + 
-                "<a href='/agent/"+data[i].room + "' target='blank_'>" + data[i].room + "</a>" + "</li></ul>");
-
-              $("#dashboardDiv").append(newDiv);
-            }
-        });
-
-
-
-
-    
-      
-
-      
-       
-  });
+ });

@@ -1,85 +1,75 @@
- $(function()  {
-      $('body').bootstrapMaterialDesign();
+ $(function() {
+     $('body').bootstrapMaterialDesign();
 
 
-       const socket = io();
-            $('form').submit(function() {
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
-        });
-        socket.on('chat message', function(msg) {
-            $('#messages').append($('<li>').text(msg));
-        });
-        console.log(socket);
-     
+     const socket = io();
+     $('form').submit(function() {
+         socket.emit('chat message', $('#m').val());
+         $('#m').val('');
+         return false;
+     });
+     socket.on('chat message', function(msg) {
+         $('#messages').append($('<li>').text(msg));
+     });
+     console.log(socket);
+
+     // This places the agent in the correct chat room with socket.io
+     var path = location.pathname.split("");
+     var chatIndex = path.lastIndexOf("/");
+     var chatRoom = path.slice(chatIndex + 1).join("");
+     console.log(chatRoom);
+
+     $.post("/agent/" + chatRoom, {}).then(function(data) {
+         console.log(data);
+
+         var userObj = {
+             username: data.currentUser.agent_first_name,
+             room: chatRoom.toString(),
+             agent: true
+         }
+         socket.emit('new user', userObj);
+
+     })
 
 
+     // PHASED OUT:
 
-      // $.get("/chatuser", function(data) {
-      //     console.log(data);   
+     // Once agent authentication is implimented this modal will be phased out and 
+     // agents sign on username with server as the username
+     // $("#exampleModal").modal("show");
+     // $(".user-button").on("click", function() {
+     //     var user = $("#user-name").val().trim();
+     //     // var room = $("#room-name").val().trim();
+     //     console.log(window.location);
 
-      //     socket.emit("new user", data)
+     // var userObj = {
+     //     username: user,
+     //     room: chatRoom.toString(),
+     //     agent: true
+     // }
 
-      // })
+     //     // $.post("/agent/" + chatRoom, userObj).then(function(data) {
+     //     //     console.log(data);
+     //     // })
 
+     // socket.emit('new user', userObj);
 
-      // FOR AGENT STUFF
+     //     // $.post("/agent", userObj).then(function(agentData){
+     //     //   console.log(agentData);
+     //     // });
 
-         var path = location.pathname.split("");
+     //     // location.assign("/chat");
 
-
-       var chatIndex = path.lastIndexOf("/");
-
-       var chatRoom = path.slice(chatIndex + 1).join("");
-
-       console.log(chatRoom);
-
-
-
-      $("#exampleModal").modal("show");
-
-        $(".user-button").on("click", function() {
-            var user = $("#user-name").val().trim();
-            // var room = $("#room-name").val().trim();
-
-            console.log(window.location);
-
-            var userObj = {
-                username: user,
-                room: chatRoom.toString()
-            }
-
-            $.post("/agent/" + chatRoom, userObj).then(function(data){
-                console.log(data);
-            })
-
-            socket.emit('new user', userObj);
-
-            // $.post("/agent", userObj).then(function(agentData){
-            //   console.log(agentData);
-            // });
-
-            // location.assign("/chat");
-
-            $("#exampleModal").modal("hide");
-        });
+     //     $("#exampleModal").modal("hide");
+     // });
 
 
-        $("#showUsers").on("click", function(){
-          socket.emit("show users");
-        })
+     // Phased Out
+     // $("#showUsers").on("click", function() {
+     //     socket.emit("show users");
+     // })
 
-        socket.on("show users", function(data){
-          console.log(data);
-        });
-
-
-
-
-    
-      
-
-      
-       
-  });
+     // socket.on("show users", function(data) {
+     //     console.log(data);
+     // });
+ });

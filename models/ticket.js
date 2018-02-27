@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
+<<<<<<< HEAD
 
         },
         agent_id: {
@@ -22,8 +23,12 @@ module.exports = function(sequelize, DataTypes) {
         chat_conversation{
             type: DataTypes.JSON,
             allowNull: false
+=======
+>>>>>>> 9bfa80e44a3504456f7d25121cf6cc8f40f9aaa4
         }
+    }, { underscored: true });
 
+<<<<<<< HEAD
     }, {underscored: true});
     
    //Ticket.associate = function(models) {
@@ -37,5 +42,14 @@ module.exports = function(sequelize, DataTypes) {
  // };
 
   
+=======
+    Ticket.associate = function(models) {
+        models.Ticket.belongsTo(models.Customers, {
+            foreignKey: {
+                allowNull: false
+            }
+        });
+    };
+>>>>>>> 9bfa80e44a3504456f7d25121cf6cc8f40f9aaa4
     return Ticket;
 };
