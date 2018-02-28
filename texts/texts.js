@@ -1,8 +1,8 @@
 var keys = require("./keys.js");
-const accountSid = keys.accountSid;
-const authToken = keys.authToken;
+var accountSid = keys.accountSid;
+var authToken = keys.authToken;
 
-const client = require('twilio')(accountSid, authToken);
+var client = require('twilio')(accountSid, authToken);
 
 module.exports = function(recipient, tNumber, randomText) {
 
@@ -14,4 +14,4 @@ module.exports = function(recipient, tNumber, randomText) {
         })
         .then(message => console.log(message.sid));
     console.log("success");
-}
+};

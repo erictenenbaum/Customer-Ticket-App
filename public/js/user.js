@@ -39,11 +39,13 @@ $(document).ready(function() {
 
             success: function(data) {
                 myUser = $("#userFirstName").val().trim();
-                var chatInfo = { username: myUser, room: data.id };
+                var chatInfo = { username: myUser, room: data.id, agent: false };
                 socket.emit("new user", chatInfo);
+
+                $(".loginForm").hide();
+                $(".signOutButton").show();
                 $(".signUpPanel").fadeOut("slow");
                 $(".chatContainer").fadeIn("slow");
-                $(".signOutButton").fadeIn("slow");
             },
             error: function() {
                 console.log("error");
