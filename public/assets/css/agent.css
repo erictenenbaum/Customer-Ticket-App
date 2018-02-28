@@ -16,21 +16,28 @@ h2 {
 }
 
 .loginForm {
-    float: right;
+    float: left;
     display: flex;
     align-items: center;
     margin-top: 5px;
 }
 
-.agentLabelInput {
+.agentPasswordInput,
+.agentLoginInput {
     margin-bottom: 0;
 }
 
+.agentLoginInput {
+    margin-right: 10px;
+}
+
+#agentPassword,
 #agentName {
     margin-bottom: 0;
 }
 
-agentNameLogin {
+.password,
+.username {
     height: 30px;
     padding: 10px 5px;
 }
@@ -68,6 +75,55 @@ agentNameLogin {
 }
 
 
+/* Form Section */
+
+.panel {
+    width: 360px;
+    margin-top: 60px;
+}
+
+.panel-heading {
+    text-align: center;
+}
+
+th {
+    padding: 4px !important;
+    text-align: center;
+}
+
+.panel-body {
+    padding: 15px 0;
+}
+
+.agentSignupForm {
+    padding: 0 15px;
+    margin-bottom: 0;
+}
+
+.form-group:last-child {
+    margin-bottom: 0px;
+}
+
+.button-group {
+    width: 100%;
+    padding: 15px 5px 0;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+.btn {
+    height: 35px;
+    padding: 0 12px;
+    margin: 0 5px;
+}
+
+.btn-default {
+    color: #2C3E50;
+    background-color: #ECF0F1;
+    border: 0;
+}
+
+
 /* Status Box */
 
 h3 {
@@ -75,36 +131,24 @@ h3 {
     background-color: ad0101;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 25px;
-    width: 100%;
     padding: 10px;
     margin-top: 0;
     color: white;
+    margin-bottom: 0;
 }
 
+.openCalls,
 .activeCalls {
-    width: 30%;
-    height: 92%;
+    width: 360px;
+    height: 45%;
+    min-height: 300px;
     margin: 20px;
     padding: 0;
-    background-color: gray;
+    background-color: white;
+}
+
+.dashboard {
     display: none;
-}
-
-.solvedIssues,
-.openIssues {
-    width: 30%;
-    height: 20%;
-    padding: 0;
-    background-color: gray;
-    display: none;
-}
-
-.solvedIssues {
-    margin: 20px 20px 20px 0;
-}
-
-.openIssues {
-    margin-top: 20px;
 }
 
 
@@ -117,7 +161,6 @@ h3 {
     display: none;
     padding: 0;
     margin-top: 10px;
-    /* width: 100%; */
     margin-left: 90px;
 }
 

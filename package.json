@@ -1,30 +1,33 @@
 {
-  "name": "customer-ticket-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/erictenenbaum/Customer-Ticket-App.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/erictenenbaum/Customer-Ticket-App/issues"
-  },
-  "homepage": "https://github.com/erictenenbaum/Customer-Ticket-App#readme",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "dotenv": "^5.0.0",
-    "express": "^4.16.2",
-    "express-handlebars": "^3.0.0",
-    "mysql2": "^1.5.2",
-    "sequelize": "^4.33.3",
-    "socket.io": "^2.0.4",
-    "twilio": "^3.11.3"
-  }
+    "name": "customer-ticket-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/erictenenbaum/Customer-Ticket-App.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/erictenenbaum/Customer-Ticket-App/issues"
+    },
+    "homepage": "https://github.com/erictenenbaum/Customer-Ticket-App#readme",
+    "dependencies": {
+        "bcrypt": "^1.0.3",
+        "body-parser": "^1.18.2",
+        "cors": "^2.8.4",
+        "dotenv": "^5.0.0",
+        "express": "^4.16.2",
+        "express-session": "^1.15.6",
+        "express-sessions": "^1.0.6",
+        "mysql2": "^1.5.2",
+        "sequelize": "^4.33.3",
+        "socket.io": "^2.0.4",
+        "twilio": "^3.11.3"
+    }
 }

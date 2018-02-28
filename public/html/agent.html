@@ -20,29 +20,89 @@
     <div class="header">
         <h2 class="text-success">Agent Dashboard</h2>
         <form class="loginForm">
-            <div class="form-group agentLabelInput">
-                <label id="agentName">Name</label>
-                <input type="text" class="form-control agentNameLogin" name="agentName" placeholder="agentName" required>
+            <div class="form-group agentLoginInput">
+                <label id="agentName">Username</label>
+                <input type="text" class="form-control username" name="username" placeholder="username" required>
+            </div>
+            <div class="form-group agentPasswordInput">
+                <label id="agentPassword">Password</label>
+                <input type="password" class="form-control password" name="password" placeholder="password" required>
             </div>
             <button type="button" class="btn-default loginButton">LogIn</button>
-            <button type="button" class="btn-default signOutButton">SignOut</button>
         </form>
+        <button type="button" class="btn-default signOutButton">SignOut</button>
     </div>
 
     <div class="background">
-        <div class="col-sm-3 activeCalls">
-            <h3>Active</h3>
-            <div>
-                <table class="table table-bordered  table-hover">
-                    <thead>
-                        <tr>
-                            <th>AgentName</th>
-                            <th>ClientName</th>
-                            <th>TicketNumber</th>
-                        </tr>
-                    </thead>
-                    <tbody id="activeCallLists"></tbody>
-                </table>
+        <!-- For layout purposes only -->
+        <div class="col-sm-6">
+        </div>
+
+        <!-- User Sign up Form -->
+        <div class="col-sm-6">
+            <div class="panel signUpPanel panel-default center-block">
+                <div class="panel-heading">Agent Sign-up Form</div>
+                <div class="panel-body">
+                    <form class="agentSignupForm">
+                        <div class="form-group ">
+                            <label for="nameInputform">First</label>
+                            <input type="text " class="form-control " id="agentFirstName" name="agent_first_name" placeholder="Jane" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="nameInputform">Last</label>
+                            <input type="text " class="form-control " id="agentLastName" name="agent_last_name" placeholder="Smith" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="userInputform">Username</label>
+                            <input type="text " class="form-control " id="userName" name="username" placeholder="JaneSmith" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="emailInputForm">Email Address</label>
+                            <input type="email " class="form-control " id="agentEmailAddInput" name="email" placeholder="name@example.com" required>
+                        </div>
+                        <div class="form-group ">
+                            <label for="passwordInput">Password</label>
+                            <input type="password " class="form-control " id="agentPasswordInput" name="password" placeholder="name@example.com" required>
+                        </div>
+                        <div class="button-group ">
+                            <button type="button" class="btn btn-default signUpButton">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Call Forms  -->
+        <div class="col-sm-6 dashboard center-block">
+            <div class="openCalls">
+                <h3>Open</h3>
+                <div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Client</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="openCallLists"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="activeCalls">
+                <h3>Active</h3>
+                <div>
+                    <table class="table table-bordered  table-hover">
+                        <thead>
+                            <tr>
+                                <th>Agent</th>
+                                <th>Client</th>
+                                <th>Ticket</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activeCallLists"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -59,15 +119,18 @@
                 </div>
             </div>
         </div>
-        <!-- Footer Section -->
-        <nav class="footer navbar-fixed-bottom ">
-            <div class="footer-space ">
-                <footer class="primary-footer group ">
-                    <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
-                </footer>
-            </div>
-        </nav>
-        <script type="text/javascript " src="../js/agent.js "></script>
+
+    </div>
+
+    <!-- Footer Section -->
+    <nav class="footer navbar-fixed-bottom ">
+        <div class="footer-space ">
+            <footer class="primary-footer group ">
+                <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
+            </footer>
+        </div>
+    </nav>
+    <script type="text/javascript " src="../js/agent.js "></script>
 </body>
 
 </html>

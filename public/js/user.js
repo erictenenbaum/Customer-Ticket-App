@@ -11,31 +11,29 @@ $(document).ready(function() {
     // 
     $(".loginButton").on("click", function(event) {
         $.ajax({
-            url: "/login",
+            url: "/user/login",
             type: "POST",
             data: $(".loginForm").serialize(),
             success: function(data) {
-
                 myUser = data.firstName;
-                var chatInfo = { username: data.firstName, room: data.id };
+                var chatInfo = { username: data.firstName, room: data.id, agent: false };
 
                 socket.emit("new user", chatInfo);
-                $(".loginButton").fadeOut("slow");
+                $(".loginForm").hide();
+                $(".signOutButton").show();
                 $(".signUpPanel").fadeOut("slow");
-                $('.chatContainer').fadeIn('slow');
-                $(".signOutButton").fadeIn("slow");
-
+                $(".chatContainer").fadeIn("slow");
             },
             error: function() {
                 console.log("error");
-            },
+            }
         });
     });
 
     // 
     $(".signUpButton").on("click", function(event) {
         $.ajax({
-            url: "/signup",
+            url: "/user/signup",
             type: "POST",
             data: $(".userMessageForm").serialize(),
 
@@ -46,11 +44,10 @@ $(document).ready(function() {
                 $(".signUpPanel").fadeOut("slow");
                 $(".chatContainer").fadeIn("slow");
                 $(".signOutButton").fadeIn("slow");
-
             },
             error: function() {
                 console.log("error");
-            },
+            }
         });
     });
 
@@ -105,9 +102,11 @@ $(document).ready(function() {
     });
 
     $(".signOutButton").on("click", function(event) {
-        // $(".loginButton").fadeIn("slow");
-        // $(".signUpPanel").fadeIn("slow");
-        // $(".chatContainer").fadeOut("slow");
-        // $(".signOutButton").fadeOut("slow");
+        socket.disconnect();
+        $(".loginForm").show();
+        $(".signUpPanel").fadeIn("slow");
+        $(".chatContainer").fadeOut("slow");
+        $(".signOutButton").hide();
+        resetChat();
     });
 });
