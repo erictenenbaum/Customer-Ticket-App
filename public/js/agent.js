@@ -1,16 +1,15 @@
 $(document).ready(function() {
     var me = {};
-    me.avatar =
-        "https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48";
+    me.avatar = "http://www.petsworld.in/blog/wp-content/uploads/2014/09/funny-cat.jpg";
 
     var you = {};
-    you.avatar =
-        "https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg";
+    you.avatar = "http://media.graytvinc.com/images/810*456/Dog380.jpg";
 
     var socket = io();
     var chatSocket = io();
     var currentAgent;
 
+    // once clicked, call jquery ajax method
     $(".loginButton").on("click", function(event) {
         $.ajax({
             url: "/agent/login",
@@ -29,25 +28,23 @@ $(document).ready(function() {
                     agent: true
                 };
                 socket.emit("new user", userInfo);
-
-                setTimeout(function() {
-                    socket.emit("active tickets");
-                    socket.emit("open tickets");
-                }, 500);
+                socket.emit("active tickets");
+                socket.emit("open tickets");
             },
-            error: function() {
-                console.log("error");
+            error: function(data) {
+                alert(data.responseText);
             }
         });
     });
 
+    // once clicked, call jquery ajax method
     $(".signUpButton").on("click", function(event) {
         $.ajax({
             url: "/agent/signup",
             type: "POST",
             data: $(".agentSignupForm").serialize(),
 
-            success: function(data) {
+            success: function(agent) {
                 $(".loginForm").hide();
                 $(".signOutButton").show();
                 $(".signUpPanel").fadeOut("slow");
@@ -60,18 +57,16 @@ $(document).ready(function() {
                     agent: true
                 };
                 socket.emit("new user", userInfo);
-
-                setTimeout(function() {
-                    socket.emit("active tickets");
-                    socket.emit("open tickets");
-                }, 500);
+                socket.emit("active tickets");
+                socket.emit("open tickets");
             },
-            error: function() {
-                console.log("error");
+            error: function(data) {
+                alert(data.responseText);
             }
         });
     });
 
+    // chat messages 
     function insertChat(who, text, time) {
         if (time === undefined) {
             time = 0;
@@ -142,6 +137,7 @@ $(document).ready(function() {
         }
     });
 
+    // populate data to our Active Call dashboard
     socket.on("active tickets", function(data) {
         console.log("data", data);
         $("#activeCallLists").empty();
@@ -162,6 +158,7 @@ $(document).ready(function() {
         }
     });
 
+    // populate data to our Open Call dashboard
     socket.on("open tickets", function(data) {
         console.log("data", data);
         $("#openCallLists").empty();
@@ -182,6 +179,7 @@ $(document).ready(function() {
         }
     });
 
+    // disconnect from the server once button is pressed
     $(".signOutButton").on("click", function(event) {
         socket.disconnect();
         chatSocket.disconnect();
@@ -192,6 +190,7 @@ $(document).ready(function() {
         $(".signOutButton").hide();
     });
 
+    // transfer data to the active call from the open call dashboard once assigned button is click
     $("#openCallLists").on("click", ".assignButton", function(event) {
         var room = $(this).attr("id");
         var userInfo = {

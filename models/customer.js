@@ -2,11 +2,15 @@ module.exports = function(sequelize, DataTypes) {
     var Customers = sequelize.define("Customers", {
         customer_first_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            validate: {
+                allowNull: false
+            }
         },
         customer_last_name: {
             type: DataTypes.STRING,
-            allowNull: false
+            validate: {
+                allowNull: false
+            }
         },
         customer_phone: {
             type: DataTypes.STRING
@@ -14,8 +18,12 @@ module.exports = function(sequelize, DataTypes) {
         customer_email: {
             type: DataTypes.STRING,
             unique: true,
-        }
+            validation: {
+                isEmail: true,
+                allowNull: false
 
+            }
+        }
 
     }, { underscored: true });
 

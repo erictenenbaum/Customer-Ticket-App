@@ -70,6 +70,8 @@ var io = require('socket.io')(server);
 io.on("connection", function(socket) {
     console.log("someone connected");
 
+    // this is trigger when an agent or user signs in
+    // this is also trigger when assigning an agent to a ticket
     socket.on('new user', function(newUser) {
         console.log(JSON.stringify(newUser, null, 2));
 
@@ -86,6 +88,7 @@ io.on("connection", function(socket) {
         connectedUsers[socket.room].room = socket.room;
         if (newUser.agent) {
             connectedUsers[socket.room].agent = socket.username;
+            // assigning agent to a ticket if id exist
             if (newUser.id !== undefined) {
                 db.Ticket
                     .update({ agent_id: newUser.id }, { where: { id: parseInt(newUser.room) } })

@@ -33,7 +33,7 @@ router.post("/agent/login", function(req, res) {
         //this is how we would correctly do a check for a null value if recieved
         if (!dbData && typeof dbData === "object") {
             //this will send an error code to our front end for the user not existing
-            res.status(404).send('ohhh no, there is a problem with the username or password!');
+            res.status(404).send('Invalid username or password. Please try again');
         } else {
             //here we bring in bcrypt. bcrypt's compare method asks for a few things. it asks for the first parameter you send in a plain text password. 
             //AKA: our users password coming in from the front end. the second parameter bcrypt wants us to pass in the hashed password that we stored in the db. lastly it wants a callback funtion
@@ -44,7 +44,7 @@ router.post("/agent/login", function(req, res) {
 
                 //if the response is false send an error to the front end letting the user know that the passwords did not match.
                 if (!bcryptRes) {
-                    res.status(404).send('ohhh no, there is a problem with the username or password!');
+                    res.status(404).send("Invalid username or password. Please try again");
                 } else {
                     //if the response from bcrypt was true we know our users password matched and we can now format the user data coming from the database to be sent to the font end
                     var userObj = {
@@ -78,18 +78,22 @@ router.post("/agent/signup", function(req, res) {
             req.body.password = hash;
             console.log(req.body.password);
             // Create our agent insert for our database
-            db.Agent.create(req.body).then(function(dbData) {
-                var userObj = {
-                    id: dbData.dataValues.id,
-                    agent_first_name: dbData.dataValues.agent_first_name,
-                    agent_last_name: dbData.dataValues.agent_last_name,
-                    username: dbData.dataValues.username,
-                    email: dbData.dataValues.email
-                };
-                req.session.user.loggedIn = true;
-                req.session.user.currentUser = userObj;
-                res.json(dbData);
-            });
+            db.Agent
+                .create(req.body)
+                .then(function(dbData) {
+                    var userObj = {
+                        id: dbData.dataValues.id,
+                        agent_first_name: dbData.dataValues.agent_first_name,
+                        agent_last_name: dbData.dataValues.agent_last_name,
+                        username: dbData.dataValues.username,
+                        email: dbData.dataValues.email
+                    };
+                    req.session.user.loggedIn = true;
+                    req.session.user.currentUser = userObj;
+                    res.json(dbData);
+                }).catch(function(err) {
+                    res.status(400).send("Unable to create account. Please check your data");
+                });
         });
     });
 });
@@ -103,13 +107,17 @@ router.post("/user/login", function(req, res) {
             }
         })
         .then(function(customer) {
-            globalVariable[customer.dataValues.id] = customer.dataValues.customer_first_name;
-            db.Ticket.create({
-                customer_id: customer.dataValues.id
-            }).then(function(ticketResults) {
-                ticketResults.dataValues.firstName = globalVariable[ticketResults.dataValues.customer_id];
-                res.json(ticketResults);
-            });
+            if (customer !== null) {
+                globalVariable[customer.dataValues.id] = customer.dataValues.customer_first_name;
+                db.Ticket.create({
+                    customer_id: customer.dataValues.id
+                }).then(function(ticketResults) {
+                    ticketResults.dataValues.firstName = globalVariable[ticketResults.dataValues.customer_id];
+                    res.json(ticketResults);
+                });
+            } else {
+                res.status(404).send("User does not exist");
+            }
         });
 });
 
@@ -126,6 +134,8 @@ router.post("/user/signup", function(req, res) {
         }).then(function(ticketResults) {
             res.json(ticketResults);
         });
+    }).catch(function(err) {
+        res.status(400).send("Unable to create account. Please check your data");
     });
 });
 

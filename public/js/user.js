@@ -1,9 +1,9 @@
 $(document).ready(function() {
     var me = {};
-    me.avatar = "https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48";
+    me.avatar = "http://www.petsworld.in/blog/wp-content/uploads/2014/09/funny-cat.jpg";
 
     var you = {};
-    you.avatar = "https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg";
+    you.avatar = "http://media.graytvinc.com/images/810*456/Dog380.jpg";
 
     var socket = io();
     var myUser;
@@ -24,8 +24,8 @@ $(document).ready(function() {
                 $(".signUpPanel").fadeOut("slow");
                 $(".chatContainer").fadeIn("slow");
             },
-            error: function() {
-                console.log("error");
+            error: function(data) {
+                alert(data.responseText);
             }
         });
     });
@@ -47,8 +47,8 @@ $(document).ready(function() {
                 $(".signUpPanel").fadeOut("slow");
                 $(".chatContainer").fadeIn("slow");
             },
-            error: function() {
-                console.log("error");
+            error: function(data) {
+                alert(data.responseText);
             }
         });
     });
