@@ -10,7 +10,8 @@ app.use(cors());
 
 
 app.use(session({
-    secret: process.env.SESSIONSECRET || config.sessionSecret || "cat",    
+    // secret: process.env.SESSIONSECRET || config.sessionSecret || "cat",
+    secret: process.env.SESSIONSECRET || "cat",    
     resave: false,
     saveUninitialized: true
 }));
