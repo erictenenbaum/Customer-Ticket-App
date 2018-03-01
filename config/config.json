@@ -1,0 +1,14 @@
+{
+  
+  "test": {
+    "username": "root",
+    "password": "process.env.password",
+    "database": "project_twoDB",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "JAWSDB_URL",
+    "dialect": "mysql"
+  }
+}
