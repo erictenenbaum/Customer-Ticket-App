@@ -133,9 +133,9 @@ router.post("/user/signup", function(req, res) {
             customer_id: customerResults.dataValues.id
         }).then(function(ticketResults) {
             res.json(ticketResults);
+        }).catch(function(err) {
+            res.status(400).send("Unable to create account. Please check your data");
         });
-    }).catch(function(err) {
-        res.status(400).send("Unable to create account. Please check your data");
     });
 });
 

@@ -2,39 +2,24 @@ module.exports = function(sequelize, DataTypes) {
     var Agent = sequelize.define("Agent", {
         agent_first_name: {
             type: DataTypes.STRING,
-            validate: {
-                allowNull: false,
-                min: 1
-            }
+            allowNull: false
         },
         agent_last_name: {
             type: DataTypes.STRING,
-            validate: {
-                allowNull: false,
-                min: 1
-            }
+            allowNull: false
         },
         email: {
             type: DataTypes.TEXT,
-            validate: {
-                allowNull: false,
-                min: 1
-            }
+            allowNull: false
         },
         username: {
             type: DataTypes.STRING,
             unique: true,
-            validate: {
-                allowNull: false,
-                min: 1
-            }
+            allowNull: false
         },
         password: {
             type: DataTypes.TEXT,
-            validate: {
-                allowNull: false,
-                min: 1
-            }
+            allowNull: false
         }
 
 
