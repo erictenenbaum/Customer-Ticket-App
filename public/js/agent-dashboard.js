@@ -18,7 +18,7 @@
              var newDiv = $("<div>");
 
              newDiv.html("<ul><li>" + "Name: " + data[i].user + "</li> <li> Room: " +
-                 "<a href='/agent/" + data[i].room + "'target='blank_'" +
+                 "<a href='/agent/" + data[i].room + "'target='_blank'" +
                  "class='roomButton'" +
                  "data-id='" + [i] + "'>" +
                  data[i].room + "</a>" +

@@ -34,6 +34,10 @@
 
      // PHASED OUT:
 
+     // This is phased out for now, but could be used again in cases in which we want the agents to be able to manually
+     // choose what chat room they want to join, and in cases in which multiple agents will be assisting with on customer
+     // in a given room
+
      // Once agent authentication is implimented this modal will be phased out and 
      // agents sign on username with server as the username
      // $("#exampleModal").modal("show");
