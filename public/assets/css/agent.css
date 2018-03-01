@@ -58,6 +58,8 @@ h2 {
 
 .signOutButton {
     display: none;
+    height: 25px;
+    margin-top: 28px;
 }
 
 
@@ -93,6 +95,22 @@ th {
 
 .panel-body {
     padding: 15px 0;
+}
+
+.chatPanel {
+    width: 500px;
+    display: none;
+}
+
+.chatBody {
+    display: flex;
+    padding: 0;
+    height: 432px;
+}
+
+.list-group {
+    height: 400px;
+    width: 120px;
 }
 
 .agentSignupForm {
@@ -154,28 +172,21 @@ h3 {
 
 /* Chat */
 
-.chatContainer {
-    background: #e0e0de;
-    height: 400px;
-    overflow: hidden;
-    display: none;
-    padding: 0;
-    margin-top: 10px;
-    margin-left: 90px;
+.list-group-item.selected {
+    background: lightskyblue;
 }
 
-.chatContainer2 {
+.chatContainer {
+    width: 400px;
     background: #e0e0de;
-    height: 400px;
+    height: 433px;
     overflow: hidden;
-    display: none;
     padding: 0;
-    margin-top: 10px;
-    margin-left: 90px;
+    display: none;
 }
 
 .chatContainer>div:last-of-type {
-    position: absolute;
+    position: static;
     bottom: 5px;
     width: 100%;
     display: flex;
@@ -246,17 +257,17 @@ h3 {
     background: white;
 }
 
-ul {
+.chatBoard {
     width: 100%;
     list-style-type: none;
     padding: 18px;
-    position: absolute;
+    position: static;
     bottom: 32px;
     display: flex;
     flex-direction: column;
     overflow: auto;
-    height: 90%;
-    ;
+    height: 380px;
+    margin-bottom: 0;
 }
 
 .msj:before {

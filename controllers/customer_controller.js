@@ -122,7 +122,6 @@ router.post("/user/login", function(req, res) {
 });
 
 router.post("/user/signup", function(req, res) {
-    console.log(req.body);
     db.Customers.create({
         customer_first_name: req.body.firstName,
         customer_last_name: req.body.lastName,

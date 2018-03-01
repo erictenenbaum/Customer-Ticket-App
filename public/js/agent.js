@@ -6,10 +6,8 @@ $(document).ready(function() {
     you.avatar = "http://media.graytvinc.com/images/810*456/Dog380.jpg";
 
     var socket = io();
-    var chatSocket = io();
     var currentAgent;
 
-    // once clicked, call jquery ajax method
     $(".loginButton").on("click", function(event) {
         $.ajax({
             url: "/agent/login",
@@ -27,7 +25,9 @@ $(document).ready(function() {
                     room: 0,
                     agent: true
                 };
+                // send data to the server 
                 socket.emit("new user", userInfo);
+                // make the server send open and active tickets
                 socket.emit("active tickets");
                 socket.emit("open tickets");
             },
@@ -37,13 +37,12 @@ $(document).ready(function() {
         });
     });
 
-    // once clicked, call jquery ajax method
     $(".signUpButton").on("click", function(event) {
         $.ajax({
             url: "/agent/signup",
             type: "POST",
             data: $(".agentSignupForm").serialize(),
-
+            // response from the server
             success: function(agent) {
                 $(".loginForm").hide();
                 $(".signOutButton").show();
@@ -56,6 +55,7 @@ $(document).ready(function() {
                     room: 0,
                     agent: true
                 };
+
                 socket.emit("new user", userInfo);
                 socket.emit("active tickets");
                 socket.emit("open tickets");
@@ -66,8 +66,8 @@ $(document).ready(function() {
         });
     });
 
-    // chat messages 
-    function insertChat(who, text, time) {
+    // chat messages properties
+    function insertChat(room, who, text, time) {
         if (time === undefined) {
             time = 0;
         }
@@ -108,40 +108,32 @@ $(document).ready(function() {
                 '" /></div>' +
                 "</li>";
         }
+
         setTimeout(function() {
-            $("ul").append(control);
+            $("#" + room + ".chatBoard").append(control);
         }, time);
     }
 
-    function resetChat() {
-        $("ul").empty();
-    }
-
-    // agent chat messages
-    $(".mytext").on("keyup", function(e) {
-        if (e.which == 13) {
-            var text = $(this).val();
-            if (text !== "") {
-                insertChat("me", text);
-                chatSocket.emit("chat message", text);
-                $(this).val("");
-            }
-        }
-    });
-
-    // customer chat messages
-    chatSocket.on("chat message", function(msg) {
+    // event listener for chat messages
+    socket.on("chat message", function(msg) {
         var values = msg.split(":");
-        if (values[0] !== currentAgent.agent_first_name) {
-            insertChat("other", msg);
+        var info = values[0].split(",");
+        // info[1] is the user, info[0] is the room number, values[1] is the message
+        if (info[0] !== currentAgent.agent_first_name) {
+            insertChat(info[1], "other", info[0] + ":" + values[1]);
         }
     });
 
-    // populate data to our Active Call dashboard
+    // populate data to our Active Call dashboard from the server
     socket.on("active tickets", function(data) {
-        console.log("data", data);
         $("#activeCallLists").empty();
+        var hasAgentActiveTickets = false;
+
         for (var i = 0; i < data.length; i++) {
+            if (data[i].agent === currentAgent.agent_first_name) {
+                hasAgentActiveTickets = true;
+            }
+            // html updates for the active dashboard
             $("#activeCallLists").append(
                 "<tr>" +
                 '<td id="agentName">' +
@@ -156,11 +148,14 @@ $(document).ready(function() {
                 "</tr>"
             );
         }
+        // this will fade out when there are no more active tickets from the agents
+        if (!hasAgentActiveTickets) {
+            $(".chatPanel").fadeOut("slow");
+        }
     });
 
-    // populate data to our Open Call dashboard
+    // populate data to our Open Call dashboard from the server
     socket.on("open tickets", function(data) {
-        console.log("data", data);
         $("#openCallLists").empty();
         for (var i = 0; i < data.length; i++) {
             $("#openCallLists").append(
@@ -179,15 +174,27 @@ $(document).ready(function() {
         }
     });
 
-    // disconnect from the server once button is pressed
+    socket.on("user disconnected", function(room) {
+        var currentSelected = $(".list-group > .list-group-item.selected");
+        var itemToRemove = $("#" + room + ".list-group-item");
+        itemToRemove.remove();
+        // if the item to be removed is the current selected, 
+        // the first room on the list will be selected
+        if (currentSelected[0] === itemToRemove[0]) {
+            $(".list-group > .list-group-item:first").trigger("click");
+        }
+        // chat window will be removed
+        $("#" + room + ".chatContainer").remove();
+    });
+
+    // reload when agent sign out, this would refresh the connection and all the event-listener
     $(".signOutButton").on("click", function(event) {
-        socket.disconnect();
-        chatSocket.disconnect();
         $(".loginForm").show();
         $(".signUpPanel").fadeIn("slow");
-        $(".chatContainer").fadeOut("slow");
+        $(".chatPanel").fadeOut("slow");
         $(".dashboard").fadeOut("slow");
         $(".signOutButton").hide();
+        location.reload();
     });
 
     // transfer data to the active call from the open call dashboard once assigned button is click
@@ -199,24 +206,58 @@ $(document).ready(function() {
             agent: true,
             id: currentAgent.id
         };
-        chatSocket.emit("new user", userInfo);
-        resetChat();
-        $(".chatContainer").fadeIn("slow");
+
+        socket.emit("assign agent", userInfo);
+
+        // generates html for the the chat board
+        $(".list-group").append('<li class="list-group-item" id="' + room + '">' + room + '</li>');
+        $(".multipleChatContainer").append(
+            '<div class="chatContainer" id="' + room + '">' +
+            '<ul class="chatBoard" id="' + room + '"></ul>' +
+            '<div>' +
+            '<div class="msj-rta macro">' +
+            '<div class="text text-r">' +
+            '<input class="mytext" id="' + room + '" placeholder="Type a message"/>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+        // agent chat messages on key up event
+        $("#" + room + ".mytext").on("keyup", function(e) {
+            var room = $(this).attr("id");
+            if (e.which == 13) {
+                var text = $(this).val();
+                if (text !== "") {
+                    insertChat(room, "me", text);
+                    socket.emit("room chat message", text, room);
+                    $(this).val("");
+                }
+            }
+        });
+
+        if ($(".chatPanel").css("display") === "none") {
+            showChatContainer(room);
+        }
+
+        $(".list-group > #" + room + ".list-group-item").trigger("click");
+        $(".chatPanel").fadeIn("slow");
     });
 
-    $("#openCallLists").on("click", ".assignedButton", function(event) {
+    $(".list-group").on("click", ".list-group-item", function(event) {
+        $(".list-group > .list-group-item").each(function() {
+            $(this).removeClass("selected");
+        });
         var room = $(this).attr("id");
-        var userInfo = {
-            username: currentAgent.agent_first_name,
-            room: parseInt(room),
-            agent: true,
-            id: currentAgent.id
-        };
-        chatSocket.emit("assign agent", userInfo);
-        resetChat();
-        $(".chatContainer2").fadeIn("slow");
+        $(this).addClass("selected");
+        showChatContainer(room);
     });
 
-
-
+    // this part is for the chat display 
+    function showChatContainer(room) {
+        $(".chatContainer").each(function() {
+            $(this).css("display", "none");
+        });
+        $("#" + room + ".chatContainer").css("display", "block");
+    }
 });

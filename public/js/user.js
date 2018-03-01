@@ -98,13 +98,14 @@ $(document).ready(function() {
     // agent chat messages
     socket.on("chat message", function(msg) {
         var values = msg.split(":");
-        if (values[0] !== myUser) {
-            insertChat("other", msg);
+        var info = values[0].split(",");
+        if (info[0] !== myUser) {
+            insertChat("other", info[0] + ":" + values[1]);
         }
     });
 
     $(".signOutButton").on("click", function(event) {
-        socket.disconnect();
+        socket.emit("leave room");
         $(".loginForm").show();
         $(".signUpPanel").fadeIn("slow");
         $(".chatContainer").fadeOut("slow");

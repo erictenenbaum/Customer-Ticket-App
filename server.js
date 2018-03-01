@@ -3,8 +3,6 @@ var app = express();
 var bodyParser = require("body-parser");
 require("dotenv").config();
 
-console.log(process.env);
-
 // Agent Authentication
 var cors = require('cors');
 var session = require('express-session');
@@ -34,33 +32,53 @@ var keys = require("./texts/keys.js");
 var twilioNumber = keys.TWILIO_PHONE_NUMBER;
 var recipientNumber = keys.recipientNumber;
 
-// Socketio Stuff Needs to be on the server page and needs to use server.listen
-// Logging Users
+// var list of all available rooms and users/agents connected to a room
+// each room would only have one user/agent
 var connectedUsers = {};
 
 function noAgent(user) {
-    console.log(user);
     return user.agent === undefined;
 }
 
 function hasAgent(user) {
-    console.log(user);
     return user.agent !== undefined;
 }
 
+// function to filter the connected users, allow us to check which tickets are open/active
 function filter(predicate) {
     var list = [];
     var rooms = Object.keys(connectedUsers);
-    console.log(rooms);
     for (var i = 0; i < rooms.length; i++) {
         var room = rooms[i];
-        console.log(room);
-        console.log(connectedUsers[room]);
         if (room !== "0" && predicate(connectedUsers[room])) {
             list.push(connectedUsers[room]);
         }
     }
     return list;
+}
+
+function updateAgents() {
+    // tickets with agents are active
+    var activeTickets = filter(hasAgent);
+    // tickets without an agents are open
+    var openTickets = filter(noAgent);
+
+    // send to all agents open and active tickets
+    io.to("0").emit("active tickets", activeTickets);
+    io.to("0").emit("open tickets", openTickets);
+}
+
+// removes connected user from the list when a user refresh the browser
+// or click the signout button
+function removeUser(socket) {
+    if (socket) {
+        if (connectedUsers[socket.room]) {
+            if (connectedUsers[socket.room].user === socket.username) {
+                delete connectedUsers[socket.room];
+                io.to(socket.room).emit("user disconnected", socket.room);
+            }
+        }
+    }
 }
 
 var db = require("./models");
@@ -71,7 +89,6 @@ io.on("connection", function(socket) {
     console.log("someone connected");
 
     // this is trigger when an agent or user signs in
-    // this is also trigger when assigning an agent to a ticket
     socket.on('new user', function(newUser) {
         console.log(JSON.stringify(newUser, null, 2));
 
@@ -88,12 +105,6 @@ io.on("connection", function(socket) {
         connectedUsers[socket.room].room = socket.room;
         if (newUser.agent) {
             connectedUsers[socket.room].agent = socket.username;
-            // assigning agent to a ticket if id exist
-            if (newUser.id !== undefined) {
-                db.Ticket
-                    .update({ agent_id: newUser.id }, { where: { id: parseInt(newUser.room) } })
-                    .then(function() {});
-            }
         } else {
             connectedUsers[socket.room].user = socket.username;
             require("./texts/texts.js")(recipientNumber,
@@ -102,31 +113,45 @@ io.on("connection", function(socket) {
         }
 
         console.log(connectedUsers);
-
-        var activeTickets = filter(hasAgent);
-        var openTickets = filter(noAgent);
-
-        io.to("0").emit("active tickets", activeTickets);
-        io.to("0").emit("open tickets", openTickets);
+        updateAgents();
     });
 
     socket.on('chat message', function(msg) {
-        io.to(socket.room).emit('chat message', (socket.username + ": " + msg));
+        io.to(socket.room).emit('chat message', (socket.username + "," + socket.room + ": " + msg));
         console.log(socket.username + ": " + msg);
     });
 
-    socket.on('disconnect', function() {
-        console.log(socket.username, ' disconnected from Room: ' + socket.room);
-        var activeTickets = filter(hasAgent);
-        var openTickets = filter(noAgent);
-        io.to("0").emit("active tickets", activeTickets);
-        io.to("0").emit("open tickets", openTickets);
+    // is triggered by an agent sending a message to a room
+    socket.on('room chat message', function(msg, room) {
+        io.to(room).emit('chat message', (socket.username + "," + socket.room + ": " + msg));
+        console.log(socket.username + ": " + msg);
     });
 
+    // is triggered when user refresh the browser
+    socket.on('disconnect', function() {
+        console.log(socket.username, ' disconnected from Room: ' + socket.room);
+        removeUser(socket);
+        updateAgents();
+    });
+
+    // is triggered when user signs out
+    socket.on('leave room', function() {
+        console.log(socket.username, " left Room: " + socket.room);
+        removeUser(socket);
+        socket.leave(socket.room);
+        updateAgents();
+    });
+
+
+    // is triggered when assigning an agent to a ticket
     socket.on("assign agent", function(agent_info) {
+        socket.username = agent_info.username;
+        socket.room = agent_info.room;
+        socket.join(socket.room);
+
         var user = connectedUsers[agent_info.room];
         if (user !== undefined) {
-            user.agent = agent_info.agent;
+            user.agent = agent_info.username;
             db.Ticket.update({
                 agent_id: agent_info.id
             }, {
@@ -135,19 +160,14 @@ io.on("connection", function(socket) {
                 }
             }).then(function() {});
         }
-        var activeTickets = filter(hasAgent);
-        var openTickets = filter(noAgent);
-        io.to("0").emit("active tickets", activeTickets);
-        io.to("0").emit("open tickets", openTickets);
+        updateAgents();
     });
 
-    // For initial log on by agent. All other instances come from if Number.isInteger
     socket.on("open tickets", function() {
         var openTickets = filter(noAgent);
         io.to("0").emit("open tickets", openTickets);
     });
 
-    // For initial log on by agent. All other instances come from if Number.isInteger
     socket.on("active tickets", function() {
         var activeTickets = filter(hasAgent);
         io.to("0").emit("active tickets", activeTickets);

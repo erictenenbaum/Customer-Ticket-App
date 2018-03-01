@@ -46,25 +46,25 @@
                     <form class="agentSignupForm">
                         <div class="form-group ">
                             <label for="nameInputform">First</label>
-                            <input type="text " class="form-control " id="agentFirstName" name="agent_first_name" placeholder="Jane">
+                            <input type="text" class="form-control" id="agentFirstName" name="agent_first_name" placeholder="Jane">
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="nameInputform">Last</label>
-                            <input type="text " class="form-control" id="agentLastName" name="agent_last_name" placeholder="Smith">
+                            <input type="text" class="form-control" id="agentLastName" name="agent_last_name" placeholder="Smith">
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="userInputform">Username</label>
-                            <input type="text " class="form-control" id="userName" name="username" placeholder="JaneSmith">
+                            <input type="text" class="form-control" id="userName" name="username" placeholder="JaneSmith">
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="emailInputForm">Email Address</label>
-                            <input type="email " class="form-control" id="agentEmailAddInput" name="email" placeholder="name@example.com">
+                            <input type="email" class="form-control" id="agentEmailAddInput" name="email" placeholder="name@example.com">
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="passwordInput">Password</label>
-                            <input type="password " class="form-control" id="agentPasswordInput" name="password" placeholder="password">
+                            <input type="password" class="form-control" id="agentPasswordInput" name="password" placeholder="password">
                         </div>
-                        <div class="button-group ">
+                        <div class="button-group">
                             <button type="button" class="btn btn-default signUpButton">Submit</button>
                         </div>
                     </form>
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Active Call Forms  -->
-        <div class="col-sm-6 dashboard center-block">
+        <div class="col-sm-4 dashboard center-block">
             <div class="openCalls">
                 <h3>Open</h3>
                 <div>
@@ -107,44 +107,27 @@
         </div>
 
         <!-- Chat Form -->
-        <div class="col-sm-6">
-            <div class="chatContainer2 col-sm-6 center-block">
-                <ul></ul>
-                <div>
-                    <div class="msj-rta macro">
-                        <div class="text text-r">
-                            <input class="mytext" placeholder="Type a message" />
-                        </div>
+        <div class="col-sm-8">
+            <div class="panel chatPanel panel-default center-block">
+                <div class="panel-heading">Chat Rooms</div>
+                <div class="panel-body chatBody">
+                    <ul class="list-group">
+                    </ul>
+                    <div class="multipleChatContainer">
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- For new chat message -->
-        <div class="col-sm-6">
-            <div class="chatContainer col-sm-6 center-block">
-                <ul></ul>
-                <div>
-                    <div class="msj-rta macro">
-                        <div class="text text-r">
-                            <input class="mytext" placeholder="Type a message" />
-                        </div>
-                    </div>
-                </div>
+        <!-- Footer Section -->
+        <nav class="footer navbar-fixed-bottom ">
+            <div class="footer-space ">
+                <footer class="primary-footer group ">
+                    <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
+                </footer>
             </div>
-        </div>
-
-    </div>
-
-    <!-- Footer Section -->
-    <nav class="footer navbar-fixed-bottom ">
-        <div class="footer-space ">
-            <footer class="primary-footer group ">
-                <p class="text-center "><small>&copy; Copyright 2018 Shirley, Eric and Martin</small></p>
-            </footer>
-        </div>
-    </nav>
-    <script type="text/javascript " src="../js/agent.js "></script>
+        </nav>
+        <script type="text/javascript " src="../js/agent.js "></script>
 </body>
 
 </html>
