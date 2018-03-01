@@ -1,7 +1,7 @@
 {
   "name": "customer-ticket-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Need to create a ticket and agent model",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -43,5 +43,8 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.0.1",
     "watchify": "^3.10.0"
+  },
+  "directories": {
+    "test": "test"
   }
 }
