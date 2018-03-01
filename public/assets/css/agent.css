@@ -164,6 +164,16 @@ h3 {
     margin-left: 90px;
 }
 
+.chatContainer2 {
+    background: #e0e0de;
+    height: 400px;
+    overflow: hidden;
+    display: none;
+    padding: 0;
+    margin-top: 10px;
+    margin-left: 90px;
+}
+
 .chatContainer>div:last-of-type {
     position: absolute;
     bottom: 5px;

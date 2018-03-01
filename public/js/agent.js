@@ -203,4 +203,20 @@ $(document).ready(function() {
         resetChat();
         $(".chatContainer").fadeIn("slow");
     });
+
+    $("#openCallLists").on("click", ".assignedButton", function(event) {
+        var room = $(this).attr("id");
+        var userInfo = {
+            username: currentAgent.agent_first_name,
+            room: parseInt(room),
+            agent: true,
+            id: currentAgent.id
+        };
+        chatSocket.emit("assign agent", userInfo);
+        resetChat();
+        $(".chatContainer2").fadeIn("slow");
+    });
+
+
+
 });
